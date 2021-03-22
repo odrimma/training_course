@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+{{ mixin_prop }}
+{% for item in news %}
+<div class="card mb-3">
+    <div class="card-header">
+        Категория: <a href="{{ item.category.get_absolute_url }}">{{ item.category }}</a>
+    </div>
+    <div class="card-body">
+        {% if item.photo %}
+        <img src="{{ item.photo.url }}" alt="" width="235" class="float-left mr-3">
+        {% else %}
+        <img src="https://www.cardiocoach.com/images/pix/demo_pretty_pt.jpg" alt="" width="235"
+             class="float-left mr-3">
+        {% endif %}
+        <h5 class="mt-0">{{ item.title }}</h5>
+        <p class="mt-0">{{ item.content|truncatewords:50 }}</p>
+        <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Читать далее...</a>
+    </div>
+    <div class="card-footer text-muted">
+        {{ item.created_at|date:"Y-m-d H:m" }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
